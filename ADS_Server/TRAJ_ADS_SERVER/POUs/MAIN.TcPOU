@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
+  <POU Name="MAIN" Id="{ac002873-776d-4096-82aa-e6da7e9c1d13}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+
+VAR CONSTANT
+	TRAJ_CMD_STOP: 	BYTE :=  0;//停止
+	TRAJ_CMD_NEW:   BYTE :=  1;//读入轨迹
+	TRAJ_CMD_START: BYTE :=  2;//开始运动
+	PULSE_NUM:LREAL:=131072; //编码器脉冲长度
+	CYCLE_TICK:BYTE:=1;//周期1us
+END_VAR
+
+VAR
+	//ADS变量
+	traj_cmd                :BYTE:=TRAJ_CMD_STOP; //命令
+	traj_size               :UINT:=10;       					//轨迹点的个数
+    points        			:ARRAY[0..100] OF TRAJ_POINT;      //要执行的一系列轨迹点 
+	joints    : ARRAY [0..6] OF REAL;                  //关节位置数组
+	traj_point :TRAJ_POINT;    			   //执行的轨迹点
+	last_point :TRAJ_POINT;    			   //执行的轨迹点
+	step  :UINT:=0;     		 			//当前轨迹点的步数
+	timeStamp     :UDINT:=0; 
+	duration      :REAL:=1;
+	alpha        :REAL:=0;
+	
+	//控制程序
+	ctrWord   AT%Q*:UINT:=6;//控制模式
+	torSet    AT%Q*: INT:=0;
+	torAct AT%I*: INT:=0;  //扭矩反馈值(脉冲)
+	velAct AT%I*: DINT:=0; //速度反馈值(脉冲)
+	posAct AT%I*: DINT:=0; //位置反馈值(脉冲)
+	vel: LREAL;             //实际速度
+	pos: LREAL;            //实际位置
+	
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//反馈值
+vel:=60*velAct/PULSE_NUM;
+pos:=posAct/PULSE_NUM*180;
+torSet:=LREAL_TO_INT(50*SIN(0.001*step*0.3));
+
+//根据命令进行操作
+CASE traj_cmd OF
+TRAJ_CMD_START://CMD:开始执行
+			IF step < traj_size AND ctrWord=15 THEN
+				duration:=UDINT_TO_REAL(points[step+1].timestamp-points[step].timestamp); //两个轨迹点之间的时间间隔
+				alpha:=CYCLE_TICK/duration;//比例系数
+				traj_point:=points[step];//获取当前的轨迹点
+				//************************EXCUTE MOTION()*********************
+				timeStamp:=traj_point.timestamp; //时间
+				joints:=traj_point.joints;//关节角度
+				step:=step+1;
+			ELSE //执行结束时所有将步数清零，命令设置为STOP
+				step:=0;
+				traj_cmd:=TRAJ_CMD_STOP;
+			END_IF
+TRAJ_CMD_NEW://CMD：新轨迹
+			step:=0;
+			traj_size:=TRAJ.trajectory.size;
+			//points:=TRAJ.trajectory.points;
+			traj_cmd:=TRAJ_CMD_START;
+ELSE    //CMD:停止
+	torSet:=0;//扭矩置0
+END_CASE
+]]></ST>
+    </Implementation>
+    <Method Name="interpolate" Id="{88c95068-2d24-40cb-aebc-bf0dd03667c6}">
+      <Declaration><![CDATA[METHOD interpolate : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	i:BYTE:=0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+//FOR i:=0 TO 6 BY 1 DO
+    //this_point.joints[i]:=points[step+1].joints[i]-points[step].joints[i]*alpha;
+//END_FOR;
+//this_point.timestamp:=points[step+1].timestamp+REAL_TO_UDINT(duration*alpha);
+interpolate:=FALSE;
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="MAIN">
+      <LineId Id="504" Count="0" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="398" Count="0" />
+      <LineId Id="501" Count="0" />
+      <LineId Id="493" Count="0" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="468" Count="0" />
+      <LineId Id="486" Count="0" />
+      <LineId Id="511" Count="1" />
+      <LineId Id="472" Count="2" />
+      <LineId Id="471" Count="0" />
+      <LineId Id="506" Count="0" />
+      <LineId Id="489" Count="2" />
+      <LineId Id="487" Count="0" />
+      <LineId Id="475" Count="0" />
+      <LineId Id="483" Count="2" />
+      <LineId Id="477" Count="1" />
+      <LineId Id="494" Count="0" />
+      <LineId Id="469" Count="0" />
+      <LineId Id="225" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.interpolate">
+      <LineId Id="21" Count="0" />
+      <LineId Id="25" Count="2" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
