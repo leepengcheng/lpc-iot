@@ -137,7 +137,7 @@ void readExample(std::ostream& out, long port, const AmsAddr& server)
 void readByNameExample(std::ostream& out, long port, const AmsAddr& server)
 {
     uint32_t bytesRead;
-    uint32_t buffer;
+    uint8_t buffer;
     uint32_t handle;
 
     out << __FUNCTION__ << "():\n";
@@ -156,6 +156,7 @@ void readByNameExample(std::ostream& out, long port, const AmsAddr& server)
             return;
         }
         out << "ADS read " << std::dec << bytesRead << " bytes, value: 0x" << std::hex << buffer << '\n';
+        out << "ADS read "  << bytesRead << " bytes, value: " << int(buffer) << '\n';
     }
     releaseHandleExample(out, port, server, handle);
 }
@@ -175,11 +176,13 @@ void readStateExample(std::ostream& out, long port, const AmsAddr& server)
 
 void runExample(std::ostream& out)
 {
-	static const AmsNetId remoteNetId{ 192, 168, 0, 104, 1, 1 };
-	static const char remoteIpV4[] = "192.168.0.104";
+    //sever的AmsNetId:需要在twincat添加该路由
+	static const AmsNetId remoteNetId{ 192, 168, 6, 90, 1, 1 };
+	static const char remoteIpV4[] = "192.168.6.90";
 
-    // uncomment and adjust if automatic AmsNetId deduction is not working as expected
-    AdsSetLocalAddress({192, 168, 0, 104, 2, 1});
+
+    //client的AmsNetId:需要在twincat添加该路由
+    AdsSetLocalAddress({192, 168, 6, 85, 1, 1});
 
     // add local route to your EtherCAT Master
     if (AdsAddRoute(remoteNetId, remoteIpV4)) {
@@ -198,11 +201,11 @@ void runExample(std::ostream& out)
     }
     
     const AmsAddr remote { remoteNetId, AMSPORT_R0_PLC_TC3 };
-    notificationExample(out, port, remote);
-    notificationByNameExample(out, port, remote);
-    readExample(out, port, remote);
+    // notificationExample(out, port, remote);
+    // notificationByNameExample(out, port, remote);
+    // readExample(out, port, remote);
     readByNameExample(out, port, remote);
-    readStateExample(out, port, remote);
+    // readStateExample(out, port, remote);
 
     const long closeStatus = AdsPortCloseEx(port);
     if (closeStatus) {

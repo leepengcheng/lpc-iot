@@ -33,10 +33,7 @@
 *.pyc
 
 # IDE Files
-<<<<<<< HEAD
 scheduler.*
-=======
->>>>>>> c465237ea66649eea9614bfd5ce7d0653e6bc180
 .vscode/
 .idea/
 build/

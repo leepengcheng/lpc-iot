@@ -157,6 +157,8 @@ void writeExample(std::ostream& out, long port, const AmsAddr& server)
 	out << __FUNCTION__ << "():\n";
 	const long status=AdsSyncWriteReqEx(port, &server, 0x4020, 0, writeLength, buffer_write);
 }
+
+//写入值
 void writeJointValueByName(std::ostream& out, long port, const AmsAddr& server, QString input)
 {
 	//获得变量的句柄
