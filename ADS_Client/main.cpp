@@ -2,22 +2,19 @@
 #include "AdsLib.h"
 #include <iostream>
 #include <iomanip>
-static void NotifyCallback(const AmsAddr* pAddr, const AdsNotificationHeader* pNotification, uint32_t hUser)
+#include <vector>
+static void NotifyCallback(const AmsAddr *pAddr, const AdsNotificationHeader *pNotification, uint32_t hUser)
 {
-    const uint8_t* data = reinterpret_cast<const uint8_t*>(pNotification + 1);
-    std::cout << std::setfill('0') <<
-        "NetId: " << pAddr->netId <<
-        " hUser 0x" << std::hex << hUser <<
-        " sample time: " << std::dec << pNotification->nTimeStamp <<
-        " sample size: " << std::dec << pNotification->cbSampleSize <<
-        " value:";
-    for (size_t i = 0; i < pNotification->cbSampleSize; ++i) {
+    const uint8_t *data = reinterpret_cast<const uint8_t *>(pNotification + 1);
+    std::cout << std::setfill('0') << "NetId: " << pAddr->netId << " hUser 0x" << std::hex << hUser << " sample time: " << std::dec << pNotification->nTimeStamp << " sample size: " << std::dec << pNotification->cbSampleSize << " value:";
+    for (size_t i = 0; i < pNotification->cbSampleSize; ++i)
+    {
         std::cout << " 0x" << std::hex << (int)data[i];
     }
     std::cout << '\n';
 }
 
-uint32_t getHandleByNameExample(std::ostream& out, long port, const AmsAddr& server,
+uint32_t getHandleByNameExample(std::ostream &out, long port, const AmsAddr &server,
                                 const std::string handleName)
 {
     uint32_t handle = 0;
@@ -30,28 +27,29 @@ uint32_t getHandleByNameExample(std::ostream& out, long port, const AmsAddr& ser
                                                      handleName.size(),
                                                      handleName.c_str(),
                                                      nullptr);
-    if (handleStatus) {
+    if (handleStatus)
+    {
         out << "Create handle for '" << handleName << "' failed with: 0x" << std::hex << handleStatus << '\n';
     }
     return handle;
 }
 
-void releaseHandleExample(std::ostream& out, long port, const AmsAddr& server, uint32_t handle)
+void releaseHandleExample(std::ostream &out, long port, const AmsAddr &server, uint32_t handle)
 {
     const long releaseHandle = AdsSyncWriteReqEx(port, &server, ADSIGRP_SYM_RELEASEHND, 0, sizeof(handle), &handle);
-    if (releaseHandle) {
+    if (releaseHandle)
+    {
         out << "Release handle 0x" << std::hex << handle << "' failed with: 0x" << releaseHandle << '\n';
     }
 }
 
-void notificationExample(std::ostream& out, long port, const AmsAddr& server)
+void notificationExample(std::ostream &out, long port, const AmsAddr &server)
 {
     const AdsNotificationAttrib attrib = {
         1,
         ADSTRANS_SERVERCYCLE,
         0,
-        {4000000}
-    };
+        {4000000}};
     uint32_t hNotify;
     uint32_t hUser = 0;
 
@@ -63,7 +61,8 @@ void notificationExample(std::ostream& out, long port, const AmsAddr& server)
                                                              &NotifyCallback,
                                                              hUser,
                                                              &hNotify);
-    if (addStatus) {
+    if (addStatus)
+    {
         out << "Add device notification failed with: " << std::dec << addStatus << '\n';
         return;
     }
@@ -72,20 +71,20 @@ void notificationExample(std::ostream& out, long port, const AmsAddr& server)
     std::cin.ignore();
 
     const long delStatus = AdsSyncDelDeviceNotificationReqEx(port, &server, hNotify);
-    if (delStatus) {
+    if (delStatus)
+    {
         out << "Delete device notification failed with: " << std::dec << delStatus;
         return;
     }
 }
 
-void notificationByNameExample(std::ostream& out, long port, const AmsAddr& server)
+void notificationByNameExample(std::ostream &out, long port, const AmsAddr &server)
 {
     const AdsNotificationAttrib attrib = {
         1,
         ADSTRANS_SERVERCYCLE,
         0,
-        {4000000}
-    };
+        {4000000}};
     uint32_t hNotify;
     uint32_t hUser = 0;
 
@@ -102,7 +101,8 @@ void notificationByNameExample(std::ostream& out, long port, const AmsAddr& serv
                                                              &NotifyCallback,
                                                              hUser,
                                                              &hNotify);
-    if (addStatus) {
+    if (addStatus)
+    {
         out << "Add device notification failed with: " << std::dec << addStatus << '\n';
         return;
     }
@@ -111,22 +111,25 @@ void notificationByNameExample(std::ostream& out, long port, const AmsAddr& serv
     std::cin.ignore();
 
     const long delStatus = AdsSyncDelDeviceNotificationReqEx(port, &server, hNotify);
-    if (delStatus) {
+    if (delStatus)
+    {
         out << "Delete device notification failed with: " << std::dec << delStatus;
         return;
     }
     releaseHandleExample(out, port, server, handle);
 }
 
-void readExample(std::ostream& out, long port, const AmsAddr& server)
+void readExample(std::ostream &out, long port, const AmsAddr &server)
 {
     uint32_t bytesRead;
     uint32_t buffer;
 
     out << __FUNCTION__ << "():\n";
-    for (size_t i = 0; i < 8; ++i) {
+    for (size_t i = 0; i < 8; ++i)
+    {
         const long status = AdsSyncReadReqEx2(port, &server, 0x4020, 0, sizeof(buffer), &buffer, &bytesRead);
-        if (status) {
+        if (status)
+        {
             out << "ADS read failed with: " << std::dec << status << '\n';
             return;
         }
@@ -134,73 +137,82 @@ void readExample(std::ostream& out, long port, const AmsAddr& server)
     }
 }
 
-void readByNameExample(std::ostream& out, long port, const AmsAddr& server)
+void readByNameExample(std::ostream &out, long port, const AmsAddr &server)
 {
     uint32_t bytesRead;
-    uint8_t buffer;
+    std::vector<float> buffer(3,0);
     uint32_t handle;
 
     out << __FUNCTION__ << "():\n";
-    handle = getHandleByNameExample(out, port, server, "MAIN.byByte[4]");
+    handle = getHandleByNameExample(out, port, server, "MAIN.byByte");
 
-    for (size_t i = 0; i < 8; ++i) {
-        const long status = AdsSyncReadReqEx2(port,
-                                              &server,
-                                              ADSIGRP_SYM_VALBYHND,
-                                              handle,
-                                              sizeof(buffer),
-                                              &buffer,
-                                              &bytesRead);
-        if (status) {
-            out << "ADS read failed with: " << std::dec << status << '\n';
-            return;
-        }
-        out << "ADS read " << std::dec << bytesRead << " bytes, value: 0x" << std::hex << buffer << '\n';
-        out << "ADS read "  << bytesRead << " bytes, value: " << int(buffer) << '\n';
+    // for (size_t i = 0; i < 8; ++i)
+    // {
+    const long status = AdsSyncReadReqEx2(port,
+                                          &server,
+                                          ADSIGRP_SYM_VALBYHND,
+                                          handle,
+                                          sizeof(float) * 3,
+                                          &buffer[0],
+                                          &bytesRead);
+    if (status)
+    {
+        out << "ADS read failed with: " << std::dec << status << '\n';
+        return;
     }
+    // out << "ADS read " << std::dec << bytesRead << " bytes, value: 0x" << std::hex << buffer << '\n';
+
+    for (int i = 0; i < 3; ++i)
+    {
+        out << "ADS read " << " bytes, value: " << buffer[i] << '\n';
+    }
+    // }
     releaseHandleExample(out, port, server, handle);
 }
 
-void readStateExample(std::ostream& out, long port, const AmsAddr& server)
+void readStateExample(std::ostream &out, long port, const AmsAddr &server)
 {
     uint16_t adsState;
     uint16_t devState;
 
     const long status = AdsSyncReadStateReqEx(port, &server, &adsState, &devState);
-    if (status) {
+    if (status)
+    {
         out << "ADS read failed with: " << std::dec << status << '\n';
         return;
     }
     out << "ADS state: " << std::dec << adsState << " devState: " << std::dec << devState << '\n';
 }
 
-void runExample(std::ostream& out)
+void runExample(std::ostream &out)
 {
     //sever的AmsNetId:需要在twincat添加该路由
-	static const AmsNetId remoteNetId{ 192, 168, 6, 90, 1, 1 };
-	static const char remoteIpV4[] = "192.168.6.90";
-
+    static const AmsNetId remoteNetId{192, 168, 6, 90, 1, 1};
+    static const char remoteIpV4[] = "192.168.6.90";
 
     //client的AmsNetId:需要在twincat添加该路由
-    AdsSetLocalAddress({192, 168, 6, 85, 1, 1});
+    AdsSetLocalAddress({192, 168, 6, 85, 2, 1});
 
     // add local route to your EtherCAT Master
-    if (AdsAddRoute(remoteNetId, remoteIpV4)) {
+    if (AdsAddRoute(remoteNetId, remoteIpV4))
+    {
         out << "Adding ADS route failed, did you specified valid addresses?\n";
         return;
-    } else
+    }
+    else
     {
-        out<<"successfully connect\n";
+        out << "successfully connect\n";
     }
 
     // open a new ADS port
     const long port = AdsPortOpenEx();
-    if (!port) {
+    if (!port)
+    {
         out << "Open ADS port failed\n";
         return;
     }
-    
-    const AmsAddr remote { remoteNetId, AMSPORT_R0_PLC_TC3 };
+
+    const AmsAddr remote{remoteNetId, AMSPORT_R0_PLC_TC3};
     // notificationExample(out, port, remote);
     // notificationByNameExample(out, port, remote);
     // readExample(out, port, remote);
@@ -208,7 +220,8 @@ void runExample(std::ostream& out)
     // readStateExample(out, port, remote);
 
     const long closeStatus = AdsPortCloseEx(port);
-    if (closeStatus) {
+    if (closeStatus)
+    {
         out << "Close ADS port failed with: " << std::dec << closeStatus << '\n';
     }
 
@@ -219,8 +232,16 @@ void runExample(std::ostream& out)
 #endif
 }
 
+enum HANDLEFLAGS
+{
+    HANDLE_CREATE=1,
+    HANDLE_RELEASE=2,
+};
 
 int main()
 {
     runExample(std::cout);
+
+
+    
 }
