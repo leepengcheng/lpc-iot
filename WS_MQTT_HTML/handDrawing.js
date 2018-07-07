@@ -77,13 +77,11 @@ function updateAllAdornments() { // called after checkboxes change Diagram.allow
 function save() {
     var str = '{ "position": "' + go.Point.stringify(myDiagram.position) + '",\n  "model": ' + myDiagram.model.toJson() +
         ' }';
-    // console.log(myDiagram.model.toJson());
     document.getElementById("mySavedDiagram").value = str;
 }
 
 function send() {
-    var str = '{ "position": "' + go.Point.stringify(myDiagram.position) + '",\n  "model": ' + myDiagram.model.toJson() +
-        ' }';
+    var str = JSON.stringify(myDiagram.model.nodeDataArray)
     message = new Paho.MQTT.Message(str);
     message.destinationName = topic;
     client.send(message);
