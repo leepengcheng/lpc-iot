@@ -25,7 +25,6 @@ function FreehandDrawingTool() {
   this.name = "FreehandDrawing";
   this._archetypePartData = {}; // the data to copy for a new polyline Part
   this._isBackgroundOnly = true; // affects canStart()
-
   // this is the Shape that is shown during a drawing operation
   this._temporaryShape = go.GraphObject.make(go.Shape, { name: "SHAPE", fill: null, strokeWidth: 1.5 });
   // the Shape has to be inside a temporary Part that is used during the drawing operation
@@ -92,7 +91,7 @@ FreehandDrawingTool.prototype.addPoint = function(p) {
   // for the temporary Shape, normalize the geometry to be in the viewport
   var viewpt = this.diagram.viewportBounds.position;
   var q = new go.Point(p.x-viewpt.x, p.y-viewpt.y);
-
+  console.log("add_point:"+p.x+" "+p.y+" "+viewpt.x+" "+viewpt.y)
   var part = shape.part;
   if (part.diagram === null) {
     var fig = new go.PathFigure(q.x, q.y, true);  // possibly filled, depending on Shape.fill
@@ -101,6 +100,7 @@ FreehandDrawingTool.prototype.addPoint = function(p) {
     // position the Shape's Part, accounting for the strokeWidth
     part.position = new go.Point(viewpt.x - shape.strokeWidth/2, viewpt.y - shape.strokeWidth/2);
     this.diagram.add(part);
+    // this.diagram.parts[0].geo.figs
   }
 
   // only add a point if it isn't too close to the last one
@@ -158,9 +158,9 @@ FreehandDrawingTool.prototype.doMouseUp = function() {
     var viewpt = diagram.viewportBounds.position;
     var geo = this.temporaryShape.geometry.copy();
     var pos = geo.normalize();
+    console.log("laset_pt:"+pos.x+"  "+pos.y)
     pos.x = viewpt.x - pos.x;
     pos.y = viewpt.y - pos.y;
-
     diagram.startTransaction(this.name);
     // create the node data for the model
     var d = diagram.model.copyNodeData(this.archetypePartData);
@@ -169,6 +169,7 @@ FreehandDrawingTool.prototype.doMouseUp = function() {
     var part = diagram.findPartForData(d);
     // assign the location
     part.location = new go.Point(pos.x + geo.bounds.width/2, pos.y + geo.bounds.height/2);
+    console.log(pos.x +" "+ geo.bounds.width/2+" "+pos.y +" "+ geo.bounds.height/2)
     // assign the Shape.geometry
     var shape = part.findObject("SHAPE");
     if (shape !== null) shape.geometry = geo;
