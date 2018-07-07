@@ -8,102 +8,11 @@
   <script src="js/go.js"></script>
   <script src="js/FreehandDrawingTool.js"></script>
   <script src="js/GeometryReshapingTool.js"></script>
+  <script src="js/mqttws31.min.js" type="text/javascript"></script>
 
-  <script id="code">
-    function init() {
-      if (window.goSamples) goSamples(); // init for these samples -- you don't need to call this
-      var $ = go.GraphObject.make;
+  <script id="mqtt" src="./mqtt_con.js"></script>
+  <script id="code" src="./handDrawing.js"></script>
 
-      myDiagram =
-        $(go.Diagram, "myDiagramDiv");
-
-      myDiagram.toolManager.mouseDownTools.insertAt(3, new GeometryReshapingTool());
-
-      myDiagram.nodeTemplateMap.add("FreehandDrawing",
-        $(go.Part, {
-            locationSpot: go.Spot.Center,
-            isLayoutPositioned: false
-          },
-          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify), {
-            selectionAdorned: true,
-            selectionObjectName: "SHAPE",
-            selectionAdornmentTemplate: // custom selection adornment: a blue rectangle
-              $(go.Adornment, "Auto",
-                $(go.Shape, {
-                  stroke: "dodgerblue",
-                  fill: null
-                }),
-                $(go.Placeholder, {
-                  margin: -1
-                }))
-          }, {
-            resizable: true,
-            resizeObjectName: "SHAPE"
-          }, {
-            rotatable: true,
-            rotateObjectName: "SHAPE"
-          }, {
-            reshapable: true
-          }, // GeometryReshapingTool assumes nonexistent Part.reshapeObjectName would be "SHAPE"
-          $(go.Shape, {
-              name: "SHAPE",
-              fill: null,
-              strokeWidth: 1.5
-            },
-            new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
-            new go.Binding("angle").makeTwoWay(),
-            new go.Binding("geometryString", "geo").makeTwoWay(),
-            new go.Binding("fill"),
-            new go.Binding("stroke"),
-            new go.Binding("strokeWidth"))
-        ));
-
-      // create drawing tool for myDiagram, defined in FreehandDrawingTool.js
-      var tool = new FreehandDrawingTool();
-      // provide the default JavaScript object for a new polygon in the model
-      tool.archetypePartData = {
-        stroke: "green",
-        strokeWidth: 3,
-        category: "FreehandDrawing"
-      };
-      // allow the tool to start on top of an existing Part
-      tool.isBackgroundOnly = false;
-      // install as first mouse-move-tool
-      myDiagram.toolManager.mouseMoveTools.insertAt(0, tool);
-
-      load(); // load a simple diagram from the textarea
-    }
-
-    function mode(draw) {
-      var tool = myDiagram.toolManager.findTool("FreehandDrawing");
-      tool.isEnabled = draw;
-    }
-
-    function updateAllAdornments() { // called after checkboxes change Diagram.allow...
-      myDiagram.selection.each(function (p) {
-        p.updateAdornments();
-      });
-    }
-
-    // save a model to and load a model from Json text, displayed below the Diagram
-    function save() {
-      var str = '{ "position": "' + go.Point.stringify(myDiagram.position) + '",\n  "model": ' + myDiagram.model.toJson() +
-        ' }';
-      document.getElementById("mySavedDiagram").value = str;
-    }
-
-    function load() {
-      var str = document.getElementById("mySavedDiagram").value;
-      try {
-        var json = JSON.parse(str);
-        myDiagram.initialPosition = go.Point.parse(json.position || "0 0");
-        myDiagram.model = go.Model.fromJson(json.model);
-        myDiagram.model.undoManager.isEnabled = true;
-      } catch (ex) {
-        alert(ex);
-      }
-    }
-  </script>
 </head>
 
 <body onload="init()">
@@ -114,6 +23,7 @@
       <button onclick="mode(true)">Draw Mode</button>
       <button onclick="save()">Save</button>
       <button onclick="load()">Load</button>
+      <button onclick="send()">Send</button>
       <label>
         <input type="checkbox" onclick="myDiagram.allowResize = !myDiagram.allowResize; updateAllAdornments()" checked="checked"
         />Allow Resizing</label>
@@ -137,9 +47,7 @@
       shapes. The checkboxes control whether you can resize, reshape, and/or rotate selected shapes.
     </p>
     <textarea id="mySavedDiagram" style="width:100%;height:300px">
-      {"position": "0 0", "model": { "class": "go.GraphLinksModel", "nodeDataArray": [ {"stroke":"green", "strokeWidth":3, "category":"FreehandDrawing",
-      "key":-2, "loc":"305 172", "geo":"F M0 0 L0 0"}, {"stroke":"green", "strokeWidth":3, "category":"FreehandDrawing","key":-3,
-      "loc":"366.5 336.5", "geo":"F M0 4 L0 4 L2 3 L14 0 L29 0 L51 0 L72 0 L88 0 L100 4 L103 5 L105 7 L106 8 L106 10 L106 14 L106 19 L106 25 L105 33 L100 39 L95 44 L89 50 L83 55 L80 56 L77 58 L78 58 L82 58 L91 58 L102 58 L129 72 L142 84 L153 95 L157 99 L159 103 L159 107 L159 111 L159 117 L158 124 L153 132 L148 140 L133 152 L122 161 L110 164 L99 166 L92 166 L84 167 L75 167 L66 167 L52 165 L45 165 L35 166 L31 166 L28 166 L26 166 L25 166 L24 165 L24 164"} ], "linkDataArray":[]}}
+      {"position": "0 0", "model": { "class": "go.GraphLinksModel", "nodeDataArray": [], "linkDataArray":[]}}
     </textarea>
   </div>
 </body>

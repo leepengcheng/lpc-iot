@@ -7,18 +7,21 @@
     <script src="./js/mqttws31.min.js" type="text/javascript"></script>
 
     <script>
-        var hostname = '127.0.0.1', //'192.168.1.2',
-            port = 9001,
-            clientId = 'client-mao2080',
-            timeout = 5,
-            keepAlive = 100,
-            cleanSession = false,
-            ssl = false,
-            // userName = 'mao2080',  
-            // password = '123',  
-            topic = '/World';
+        var hostname = '127.0.0.1';
+        var port = 9001;
+        var clientId = 'lee19870817';
+        var timeout = 5;
+        var keepAlive = 100;
+        var cleanSession = false;
+        var ssl = false;
+        var userName = 'lee';
+        var password = '10086';
+        var topic = '/hello';
+
+        //建立客户端实例 
         client = new Paho.MQTT.Client(hostname, port, clientId);
-        //建立客户端实例  
+
+
         var options = {
             invocationContext: {
                 host: hostname,
@@ -33,27 +36,32 @@
             // userName: userName,  
             // password: password,  
             onSuccess: onConnect,
-            onFailure: function (e) {
-                console.log(e);
-                s = "{time:" + new Date().Format("yyyy-MM-dd hh:mm:ss") + ", onFailure()}";
-                console.log(s);
-            }
+            onFailure: onFailure
         };
         client.connect(options);
+
+
+
+
+        //连接服务器并注册连接石板处理事件  
+        function onFailure(e) {
+            console.log(e);
+            s = "连接失败:{time:" + new Date().Format("yyyy-MM-dd hh:mm:ss") + ", onFailure()}";
+            console.log(s);
+        }
         //连接服务器并注册连接成功处理事件  
         function onConnect() {
             console.log("onConnected");
-            s = "{time:" + new Date().Format("yyyy-MM-dd hh:mm:ss") + ", onConnected()}";
+            s = "连接成功:{time:" + new Date().Format("yyyy-MM-dd hh:mm:ss") + ", onConnected()}";
             console.log(s);
             client.subscribe(topic);
         }
 
         client.onConnectionLost = onConnectionLost;
-
-        //注册连接断开处理事件  
         client.onMessageArrived = onMessageArrived;
 
-        //注册消息接收处理事件  
+
+        //注册连接断开处理事件  
         function onConnectionLost(responseObject) {
             console.log(responseObject);
             s = "{time:" + new Date().Format("yyyy-MM-dd hh:mm:ss") + ", onConnectionLost()}";
@@ -64,12 +72,14 @@
             }
         }
 
+        //注册消息接收处理事件  
         function onMessageArrived(message) {
             s = "{time:" + new Date().Format("yyyy-MM-dd hh:mm:ss") + ", onMessageArrived()}";
             console.log(s);
             console.log("收到消息:" + message.payloadString);
         }
 
+        //发送消息
         function send() {
             var s = document.getElementById("msg").value;
             if (s) {
@@ -83,6 +93,7 @@
 
         var count = 0;
 
+        //循环发送时间到topic
         function start() {
             window.tester = window.setInterval(function () {
                 if (client.isConnected) {
@@ -95,6 +106,7 @@
             }, 1000);
         }
 
+        //停止循环发送
         function stop() {
             window.clearInterval(window.tester);
         }
@@ -123,6 +135,47 @@
     <input type="button" value="Send" onclick="send()" />
     <input type="button" value="Start" onclick="start()" />
     <input type="button" value="Stop" onclick="stop()" />
+    <svg width="100px" height="100px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <!-- <path d="M10 10 h 80 v 80 h -80 Z" fill="transparent" stroke="black" /> -->
+
+        <path d="M10 10 H 90 V 90 H 10 L 10 10"/> 
+    </svg>
+
 </body>
 
 </html>
+
+
+
+<!-- // Create a client instance
+client = new Paho.MQTT.Client(location.hostname, Number(location.port), "clientId");
+
+// set callback handlers
+client.onConnectionLost = onConnectionLost;
+client.onMessageArrived = onMessageArrived;
+
+// connect the client
+client.connect({onSuccess:onConnect});
+
+
+// called when the client connects
+function onConnect() {
+  // Once a connection has been made, make a subscription and send a message.
+  console.log("onConnect");
+  client.subscribe("World");
+  message = new Paho.MQTT.Message("Hello");
+  message.destinationName = "World";
+  client.send(message);
+}
+
+// called when the client loses its connection
+function onConnectionLost(responseObject) {
+  if (responseObject.errorCode !== 0) {
+    console.log("onConnectionLost:"+responseObject.errorMessage);
+  }
+}
+
+// called when a message arrives
+function onMessageArrived(message) {
+  console.log("onMessageArrived:"+message.payloadString);
+} -->
