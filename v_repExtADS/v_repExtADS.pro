@@ -35,6 +35,7 @@ INCLUDEPATH += "$$PWD/include"
 
 win32 {
     DEFINES += WIN_VREP
+    LIBS+= "ws2_32.lib"
 }
 
 macx {

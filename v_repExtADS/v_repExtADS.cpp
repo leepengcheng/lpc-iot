@@ -103,13 +103,12 @@ void LUA_CREATE_CALLBACK(SScriptCallBack* cb)
 
         CScriptFunctionDataItem lids=inData->at(2);
         //client的AmsNetId:需要在twincat添加该路由
-        AdsSetLocalAddress({ lids.int32Data[0],
-                             lids.int32Data[1],
-                             lids.int32Data[2],
-                             lids.int32Data[3],
-                             lids.int32Data[4],
-                             lids.int32Data[5] });
-
+        AdsSetLocalAddress({ (uint8_t)lids.int32Data[0],
+                             (uint8_t)lids.int32Data[1],
+                             (uint8_t)lids.int32Data[2],
+                             (uint8_t)lids.int32Data[3],
+                             (uint8_t)lids.int32Data[4],
+                             (uint8_t)lids.int32Data[5] });
 
         server.port=AMSPORT_R0_PLC_TC3;
         if (!AdsAddRoute(remoteNetId, remoteIpV4))
@@ -224,7 +223,6 @@ void LUA_WRITE_CALLBACK(SScriptCallBack* cb)
         std::vector<CScriptFunctionDataItem>* inData=D.getInDataPtr();
         std::string handleName=inData->at(0).stringData[0];
         std::vector<float> values=inData->at(1).floatData;
-        uint32_t bytesRead;
         int flag=inData->at(2).int32Data[0];
         //----------更新readHandle---------------
         if(flag&HANDLE_CREATE)
