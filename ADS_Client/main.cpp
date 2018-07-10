@@ -170,6 +170,7 @@ void readByNameExample(std::ostream &out, long port, const AmsAddr &server)
     releaseHandleExample(out, port, server, handle);
 }
 
+//读取ADS server 的状态
 void readStateExample(std::ostream &out, long port, const AmsAddr &server)
 {
     uint16_t adsState;
@@ -183,6 +184,7 @@ void readStateExample(std::ostream &out, long port, const AmsAddr &server)
     }
     out << "ADS state: " << std::dec << adsState << " devState: " << std::dec << devState << '\n';
 }
+
 
 void runExample(std::ostream &out)
 {
