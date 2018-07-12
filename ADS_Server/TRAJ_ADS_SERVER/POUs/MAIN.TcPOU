@@ -56,12 +56,14 @@ TRAJ_CMD_START://CMD:开始执行
 			ELSE //执行结束时所有将步数清零，命令设置为STOP
 				step:=0;
 				traj_cmd:=TRAJ_CMD_STOP;
+        traj_size：=0
 			END_IF
 TRAJ_CMD_NEW://CMD：新轨迹
+      traj_cmd:=TRAJ_CMD_STOP;
 			step:=0;
-			traj_size:=TRAJ.trajectory.size;
+			//traj_size:=TRAJ.trajectory.size;
 			//points:=TRAJ.trajectory.points;
-			traj_cmd:=TRAJ_CMD_START;
+
 ELSE    //CMD:停止
 	torSet:=0;//扭矩置0
 END_CASE
