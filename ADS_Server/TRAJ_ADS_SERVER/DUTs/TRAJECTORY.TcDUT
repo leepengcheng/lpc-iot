@@ -3,8 +3,11 @@
   <DUT Name="TRAJECTORY" Id="{bdbaa5f1-508e-4a9c-8490-0e519f8090a5}">
     <Declaration><![CDATA[TYPE TRAJECTORY :
 STRUCT
-		size     	  :UINT:=0;                          //轨迹点的数目
-		//points        :ARRAY[0..100] OF this_point;      //要执行的一系列轨迹点  
+		cmd           :UINT:=CONST.TRAJ_CMD_STOP;                           //命令
+	    step          :UINT:=1;                        //轨迹点的时间间隔，默认1ms
+		size     	  :UDINT:=0;                          //轨迹点的数目
+		index         :UDINT:=0;                          //当前轨迹点的起始index
+		points        :ARRAY[1..CONST.PTS_NUMBER] OF TRAJ_POINT;   //要执行的一系列轨迹点  
 END_STRUCT
 END_TYPE
 ]]></Declaration>

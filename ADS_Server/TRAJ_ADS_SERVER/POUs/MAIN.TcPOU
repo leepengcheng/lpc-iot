@@ -3,120 +3,181 @@
   <POU Name="MAIN" Id="{ac002873-776d-4096-82aa-e6da7e9c1d13}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 
-VAR CONSTANT
-	TRAJ_CMD_STOP: 	BYTE :=  0;//停止
-	TRAJ_CMD_NEW:   BYTE :=  1;//读入轨迹
-	TRAJ_CMD_START: BYTE :=  2;//开始运动
-	PULSE_NUM:LREAL:=131072; //编码器脉冲长度
-	CYCLE_TICK:BYTE:=1;//周期1us
-END_VAR
-
 VAR
-	//ADS变量
-	traj_cmd                :BYTE:=TRAJ_CMD_STOP; //命令
-	traj_size               :UINT:=10;       					//轨迹点的个数
-    points        			:ARRAY[0..100] OF TRAJ_POINT;      //要执行的一系列轨迹点 
-	joints    : ARRAY [0..6] OF REAL;                  //关节位置数组
-	traj_point :TRAJ_POINT;    			   //执行的轨迹点
-	last_point :TRAJ_POINT;    			   //执行的轨迹点
-	step  :UINT:=0;     		 			//当前轨迹点的步数
-	timeStamp     :UDINT:=0; 
-	duration      :REAL:=1;
-	alpha        :REAL:=0;
+	//VREP 控制数据
+	traj_cmd                :UINT:=CONST.TRAJ_CMD_STOP; //命令
+	traj_step               :UINT:=1;//轨迹的步长
+	traj_size               :UDINT:=0;            //轨迹点的个数
+	traj_index              :UDINT:=0;
+	traj_path               :TRAJECTORY; //轨迹路径点：固定10000个点，间隔1ms(上位机指定)
 	
-	//控制程序
-	ctrWord   AT%Q*:UINT:=6;//控制模式
-	torSet    AT%Q*: INT:=0;
-	torAct AT%I*: INT:=0;  //扭矩反馈值(脉冲)
-	velAct AT%I*: DINT:=0; //速度反馈值(脉冲)
-	posAct AT%I*: DINT:=0; //位置反馈值(脉冲)
-	vel: LREAL;             //实际速度
-	pos: LREAL;            //实际位置
+	//机器人状态反馈
+	robo_status            :ROBOT_STATUS;
 	
+	j: INT;
 END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//反馈值
-vel:=60*velAct/PULSE_NUM;
-pos:=posAct/PULSE_NUM*180;
-torSet:=LREAL_TO_INT(50*SIN(0.001*step*0.3));
+      <ST><![CDATA[
 
-//根据命令进行操作
+//上报机器人状态和关节位置()
+SEND_ROBOT_STATUS();
+
+
+//每个循环读取指令和轨迹点
+traj_cmd:=traj_path.cmd;   //控制命令CMD
+
+
 CASE traj_cmd OF
-TRAJ_CMD_START://CMD:开始执行
-			IF step < traj_size AND ctrWord=15 THEN
-				duration:=UDINT_TO_REAL(points[step+1].timestamp-points[step].timestamp); //两个轨迹点之间的时间间隔
-				alpha:=CYCLE_TICK/duration;//比例系数
-				traj_point:=points[step];//获取当前的轨迹点
-				//************************EXCUTE MOTION()*********************
-				timeStamp:=traj_point.timestamp; //时间
-				joints:=traj_point.joints;//关节角度
-				step:=step+1;
-			ELSE //执行结束时所有将步数清零，命令设置为STOP
-				step:=0;
-				traj_cmd:=TRAJ_CMD_STOP;
-        traj_size：=0
-			END_IF
-TRAJ_CMD_NEW://CMD：新轨迹
-      traj_cmd:=TRAJ_CMD_STOP;
-			step:=0;
-			//traj_size:=TRAJ.trajectory.size;
-			//points:=TRAJ.trajectory.points;
+CONST.TRAJ_CMD_NEW:   //初始化：读取变量然后将原来的cmd改为START(或PAUSE)
+	//traj_index和traj_step只会在此处读取！
+	traj_size:=traj_path.size; 
+	traj_index:=traj_path.index; 
+	traj_step:=traj_path.step;  //步长1ms默认
+	traj_path.cmd:=CONST.TRAJ_CMD_PAUSE;  //修改traj_path为PAUSE
 
-ELSE    //CMD:停止
-	torSet:=0;//扭矩置0
-END_CASE
-]]></ST>
+	FUNC_NEW(); //接口实现:新路径
+CONST.TRAJ_CMD_START:
+	IF traj_index>=traj_size THEN
+		traj_cmd:=CONST.TRAJ_CMD_STOP;
+	END_IF
+	robo_status.inMotion:=CONST.ROBO_STATUS_TRUE;//正在运动
+	traj_index:=traj_index+1;
+	FOR j:=1 TO 7 BY 1 DO
+	   //traj_path.points[traj_index].joints[j]:轨迹点1的关节J的数据
+	END_FOR
+	FUNC_START(); //接口实现:开始运动
+CONST.TRAJ_CMD_STOP:    
+	traj_size:=0;
+	traj_index:=0;
+	traj_path.cmd:=CONST.TRAJ_CMD_PAUSE;  //设置为STOP  
+	robo_status.inMotion:=CONST.ROBO_STATUS_FALSE;//停止运动
+	FUNC_PAUSE(); //接口实现:停止运动
+ELSE
+	//暂停时不改变size和index
+	robo_status.inMotion:=CONST.ROBO_STATUS_FALSE;//停止运动
+	FUNC_PAUSE(); //接口实现:暂停运行哦那个
+END_CASE;]]></ST>
     </Implementation>
-    <Method Name="interpolate" Id="{88c95068-2d24-40cb-aebc-bf0dd03667c6}">
-      <Declaration><![CDATA[METHOD interpolate : BOOL
+    <Method Name="FUNC_NEW" Id="{3b81f3bf-14d6-4fdb-8b02-41108e9f285e}">
+      <Declaration><![CDATA[METHOD FUNC_NEW : BOOL
 VAR_INPUT
 END_VAR
-VAR
-	i:BYTE:=0;
-END_VAR]]></Declaration>
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
-//FOR i:=0 TO 6 BY 1 DO
-    //this_point.joints[i]:=points[step+1].joints[i]-points[step].joints[i]*alpha;
-//END_FOR;
-//this_point.timestamp:=points[step+1].timestamp+REAL_TO_UDINT(duration*alpha);
-interpolate:=FALSE;
+        <ST><![CDATA[FUNC_NEW:=TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FUNC_PAUSE" Id="{ca910c87-f492-4990-9fa0-a89a1479629b}">
+      <Declaration><![CDATA[METHOD FUNC_PAUSE : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FUNC_PAUSE:=TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FUNC_START" Id="{48e39737-4ecd-4020-aa89-aa619a91e082}">
+      <Declaration><![CDATA[METHOD FUNC_START : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FUNC_START:=TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FUNC_STOP" Id="{610863c3-f972-4b7e-bfe9-0199e689b5e8}">
+      <Declaration><![CDATA[METHOD FUNC_STOP : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FUNC_STOP:=TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SEND_ROBOT_STATUS" Id="{bfd4cb1c-6fb6-4199-a13c-dfb42e77cf72}">
+      <Declaration><![CDATA[METHOD SEND_ROBOT_STATUS : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[robo_status.driverPowered:=CONST.ROBO_STATUS_TRUE;//驱动上电
+robo_status.eStopped:=CONST.ROBO_STATUS_FALSE;//未意外停止
+robo_status.inError:=CONST.ROBO_STATUS_FALSE;//未发生错误
+//robo_status.inMotion:=CONST.ROBO_STATUS_FALSE;//正在运动
+robo_status.motionPossible:=CONST.ROBO_STATUS_TRUE;//可以运动
+robo_status.errorCode:=CONST.ROBO_ERRORCODE_NONE;//错误码
 
-]]></ST>
+
+//关节位置:从私服驱动中读取
+robo_status.position.joints[0]:=SIN(traj_index*0.0001)+1.0;
+robo_status.position.joints[1]:=SIN(traj_index*0.0001)+2.0;
+robo_status.position.joints[2]:=SIN(traj_index*0.0001)+3.0;
+robo_status.position.joints[3]:=SIN(traj_index*0.0001)+4.0;
+robo_status.position.joints[4]:=SIN(traj_index*0.0001)+5.0;
+robo_status.position.joints[5]:=SIN(traj_index*0.0001)+6.0;
+robo_status.position.joints[6]:=SIN(traj_index*0.0001)+7.0;
+
+
+SEND_ROBOT_STATUS:=TRUE;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="MAIN">
-      <LineId Id="504" Count="0" />
-      <LineId Id="231" Count="0" />
-      <LineId Id="398" Count="0" />
-      <LineId Id="501" Count="0" />
-      <LineId Id="493" Count="0" />
-      <LineId Id="467" Count="0" />
-      <LineId Id="466" Count="0" />
-      <LineId Id="468" Count="0" />
-      <LineId Id="486" Count="0" />
-      <LineId Id="511" Count="1" />
-      <LineId Id="472" Count="2" />
-      <LineId Id="471" Count="0" />
-      <LineId Id="506" Count="0" />
-      <LineId Id="489" Count="2" />
-      <LineId Id="487" Count="0" />
-      <LineId Id="475" Count="0" />
-      <LineId Id="483" Count="2" />
-      <LineId Id="477" Count="1" />
-      <LineId Id="494" Count="0" />
       <LineId Id="469" Count="0" />
+      <LineId Id="632" Count="1" />
+      <LineId Id="629" Count="1" />
+      <LineId Id="635" Count="0" />
+      <LineId Id="631" Count="0" />
       <LineId Id="225" Count="0" />
+      <LineId Id="645" Count="0" />
+      <LineId Id="582" Count="0" />
+      <LineId Id="667" Count="0" />
+      <LineId Id="636" Count="0" />
+      <LineId Id="669" Count="0" />
+      <LineId Id="647" Count="1" />
+      <LineId Id="646" Count="0" />
+      <LineId Id="651" Count="0" />
+      <LineId Id="664" Count="0" />
+      <LineId Id="591" Count="1" />
+      <LineId Id="686" Count="1" />
+      <LineId Id="685" Count="0" />
+      <LineId Id="668" Count="0" />
+      <LineId Id="608" Count="0" />
+      <LineId Id="703" Count="2" />
+      <LineId Id="594" Count="0" />
+      <LineId Id="601" Count="0" />
+      <LineId Id="654" Count="1" />
+      <LineId Id="652" Count="0" />
+      <LineId Id="660" Count="0" />
+      <LineId Id="600" Count="0" />
+      <LineId Id="641" Count="0" />
+      <LineId Id="657" Count="0" />
+      <LineId Id="661" Count="0" />
+      <LineId Id="597" Count="0" />
+      <LineId Id="587" Count="0" />
     </LineIds>
-    <LineIds Name="MAIN.interpolate">
+    <LineIds Name="MAIN.FUNC_NEW">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.FUNC_PAUSE">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.FUNC_START">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.FUNC_STOP">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.SEND_ROBOT_STATUS">
+      <LineId Id="5" Count="3" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="10" Count="6" />
+      <LineId Id="22" Count="1" />
       <LineId Id="21" Count="0" />
-      <LineId Id="25" Count="2" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="12" Count="0" />
-      <LineId Id="11" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

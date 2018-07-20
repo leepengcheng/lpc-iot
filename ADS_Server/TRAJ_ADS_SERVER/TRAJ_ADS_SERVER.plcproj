@@ -15,13 +15,16 @@
     <AutoUpdateUmlProfile>true</AutoUpdateUmlProfile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\ROBOT_STATUS.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\TRAJECTORY.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TRAJ_POINT.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GVLs\TRAJ.TcGVL">
+    <Compile Include="GVLs\CONST.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
