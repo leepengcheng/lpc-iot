@@ -316,8 +316,8 @@ function sysCall_init()
 
     ----------------ADS----------------------------------------
 
-    READ_ADDR="MAIN.robo_status"   --需要读数据时取消注释本行
-    WRITE_ADDR="MAIN.traj_path" --需要写数据时取消注释本行
+    -- READ_ADDR="MAIN.robo_status"   --需要读数据时取消注释本行
+    -- WRITE_ADDR="MAIN.traj_path" --需要写数据时取消注释本行
 
     adsHasInit=false
     if READ_ADDR or WRITE_ADDR then
