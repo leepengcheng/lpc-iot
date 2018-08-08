@@ -1,19 +1,12 @@
-include(config.pri)
-
 QT -= core
 QT -= gui
-
-TARGET =   vrepZMQ
+TARGET = vrepZMQ
 TEMPLATE = app
-
 DEFINES -= UNICODE
 CONFIG   += console
 CONFIG   -= app_bundle
 
-INCLUDEPATH += $$BOOST_INCLUDEPATH
-INCLUDEPATH += $$B0_INCLUDEPATH
-LIBS += $$B0_LIBS
-LIBS += -L$$BOOST_LIB_PATH
+
 
 *-msvc* {
     QMAKE_CXXFLAGS += -O2
@@ -41,6 +34,20 @@ LIBS += -L$$BOOST_LIB_PATH
 
 
 win32 {
+    #boost库头文件和库文件目录
+    BOOST_INCLUDE_DIRS="D:/RawDownLoads/boost_1_62"
+    BOOST_LIB_DIRS = "$$BOOST_INCLUDE_DIRS/lib64-msvc-14.0"
+
+    #B0的头文件目录和库
+    B0_INCLUDE_DIRS="$$PWD/include"
+    B0_LIBS = "$$PWD/lib/b0.lib"
+
+    INCLUDEPATH += $$BOOST_INCLUDE_DIRS
+    INCLUDEPATH += $$B0_INCLUDE_DIRS
+
+    LIBS +=  $$B0_LIBS
+    LIBS += -L$$BOOST_LIB_DIRS
+
 }
 
 
@@ -49,9 +56,8 @@ unix:!macx {
 }
 
 
-
-SOURCES += main.cpp \
-# b0_bubbleRob.cpp
+SOURCES += \
+    main.cpp
 
 unix:!symbian {
     maemo5 {
