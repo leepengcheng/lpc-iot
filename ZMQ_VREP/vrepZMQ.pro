@@ -40,7 +40,7 @@ win32 {
 
     #B0的头文件目录和库
     B0_INCLUDE_DIRS="$$PWD/include"
-    B0_LIBS = "$$PWD/lib/b0.lib"
+    B0_LIBS = "$$PWD/lib/windows/b0.lib"
 
     INCLUDEPATH += $$BOOST_INCLUDE_DIRS
     INCLUDEPATH += $$B0_INCLUDE_DIRS
@@ -52,7 +52,14 @@ win32 {
 
 
 unix:!macx {
+    #B0的头文件目录和库
+    B0_INCLUDE_DIRS="$$PWD/include"
+    B0_LIBS = "$$PWD/lib/linux/libb0.so"
+
+    INCLUDEPATH += $$B0_INCLUDE_DIRS
+
     LIBS += -lboost_system
+    LIBS +=  $$B0_LIBS
 }
 
 

@@ -11,7 +11,6 @@
 
 
 
-
 #ifdef _WIN32
 #define SLEEP_MS(x) Sleep(x)
 #else
@@ -33,14 +32,14 @@ int main(int argc,char* argv[])
 {
 
     // Create a B0 node.
-    b0::Node _node("test");
+    b0::Node _node("subNode");
     node=&_node;
 
     // 1. Let's subscribe to the sensor, simulation time and pause flag stream:
     b0::Subscriber sub_node(node,"topic1_string",&sensorCallback);
 
     // 2. Let's prepare publishers for the motor speeds:
-    b0::Publisher pub_node(node,"topic1_string");
+//    b0::Publisher pub_node(node,"topic1_string");
 
     node->init();
 
@@ -51,7 +50,7 @@ int main(int argc,char* argv[])
     {
 //        dval=dval+1.0;
 //        buff=(char*)(&dval);
-        pub_node.publish("hello world123");
+//        pub_node.publish("hello world123");
 
         // handle B0 messages:
         node->spinOnce();
