@@ -38,3 +38,6 @@ scheduler.*
 .idea/
 build/
 tempCodeRunnerFile.py
+
+#qt creator
+*.user
