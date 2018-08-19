@@ -1,1 +1,1 @@
-ngx.say("hello world leepengcheng,sleep")
+ngx.say("hello world leepengcheng")

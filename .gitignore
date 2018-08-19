@@ -36,6 +36,8 @@
 scheduler.*
 .vscode/
 .idea/
+logs/
+db/
 build/
 tempCodeRunnerFile.py
 

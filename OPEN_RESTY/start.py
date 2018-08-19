@@ -1,6 +1,8 @@
 #coding:utf-8
 import subprocess
-HostDir="G:/openresty"
+import os
+# HostDir="D:/MyGit/lpc-iot/OPEN_RESTY"
+HostDir=os.path.dirname(__file__).replace("\\","/")
 DockerDir="/usr/local/openresty/nginx"
 cmd='''docker run -it \
         --name myopenresty \
