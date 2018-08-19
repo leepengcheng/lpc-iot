@@ -1,0 +1,56 @@
+2018/08/18 18:26:24 [error] 6#6: *1 open() "/usr/local/openresty/nginx/html/index" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /index HTTP/1.1", host: "localhost"
+2018/08/18 18:29:28 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:29:49 [error] 5#5: *2 failed to load external Lua file "/usr/local/openresty/nginx/index.lua": cannot open /usr/local/openresty/nginx/index.lua: No such file or directory, client: 172.17.0.1, server: localhost, request: "GET /index HTTP/1.1", host: "localhost"
+2018/08/18 18:30:19 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:36:15 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:36:28 [error] 5#5: *1 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost"
+2018/08/18 18:36:28 [error] 5#5: *3 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "www.localhost"
+2018/08/18 18:40:18 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:44:40 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:45:54 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:45:59 [error] 5#5: *1 open() "/usr/local/openresty/nginx/html/index1" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /index1 HTTP/1.1", host: "localhost"
+2018/08/18 18:46:47 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:49:47 [error] 5#5: *2 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost"
+2018/08/18 18:49:47 [error] 5#5: *3 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "www.localhost"
+2018/08/18 18:49:47 [error] 5#5: *2 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2018/08/18 18:50:18 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:50:39 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:50:52 [error] 5#5: *1 open() "/usr/local/openresty/nginx/html/inde3" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /inde3 HTTP/1.1", host: "localhost"
+2018/08/18 18:51:01 [error] 5#5: *1 open() "/usr/local/openresty/nginx/html/inde3.html" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /inde3.html HTTP/1.1", host: "localhost"
+2018/08/18 18:54:23 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:54:35 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/18 18:55:18 [error] 5#5: *1 open() "/usr/local/openresty/nginx/html/index" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /index HTTP/1.1", host: "localhost"
+2018/08/19 12:34:30 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:47:45 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:47:50 [error] 6#6: *1 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost"
+2018/08/19 13:47:50 [error] 6#6: *2 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "www.localhost"
+2018/08/19 13:48:42 [alert] 13#13: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:48:42 [notice] 13#13: signal process started
+2018/08/19 13:48:42 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:51:01 [error] 14#14: *6 open() "/usr/local/openresty/nginx/html/index3" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /index3 HTTP/1.1", host: "localhost"
+2018/08/19 13:51:10 [alert] 15#15: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:51:10 [emerg] 15#15: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/conf/nginx.conf:123
+2018/08/19 13:51:47 [alert] 16#16: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:51:47 [emerg] 16#16: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/conf/nginx.conf:123
+2018/08/19 13:53:34 [alert] 17#17: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:53:34 [emerg] 17#17: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/conf/nginx.conf:123
+2018/08/19 13:53:50 [alert] 18#18: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:53:50 [emerg] 18#18: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/conf/nginx.conf:123
+2018/08/19 13:53:53 [alert] 19#19: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:53:53 [emerg] 19#19: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/conf/nginx.conf:123
+2018/08/19 13:55:44 [alert] 20#20: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:55:44 [emerg] 20#20: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/conf/nginx.conf:123
+2018/08/19 13:55:52 [error] 14#14: *7 open() "/usr/local/openresty/nginx/html/index3" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /index3 HTTP/1.1", host: "localhost"
+2018/08/19 13:58:19 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:59:27 [alert] 16#16: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 13:59:27 [emerg] 16#16: unexpected end of file, expecting "}" in /usr/local/openresty/nginx/conf/nginx.conf:126
+2018/08/19 13:59:52 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 14:00:43 [error] 6#6: *1 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost"
+2018/08/19 14:00:43 [error] 6#6: *3 open() "/usr/local/openresty/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "www.localhost"
+2018/08/19 14:00:58 [crit] 13#13: pread() "/usr/local/openresty/nginx/./conf/" failed (21: Is a directory)
+2018/08/19 14:01:31 [alert] 14#14: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/./conf/nginx.conf:35
+2018/08/19 14:01:31 [emerg] 14#14: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/./conf/nginx.conf:130
+2018/08/19 14:03:21 [alert] 16#16: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 14:03:21 [emerg] 16#16: unexpected end of file, expecting ";" or "}" in /usr/local/openresty/nginx/conf/nginx.conf:130
+2018/08/19 14:03:32 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35
+2018/08/19 14:03:43 [alert] 1#1: lua_code_cache is off; this will hurt performance in /usr/local/openresty/nginx/conf/nginx.conf:35

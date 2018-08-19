@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  openresty:
+    image: openresty
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80

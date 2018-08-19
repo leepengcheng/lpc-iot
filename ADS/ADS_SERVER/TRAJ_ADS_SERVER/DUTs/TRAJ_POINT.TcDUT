@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
+  <DUT Name="TRAJ_POINT" Id="{dfeac29d-7cf5-43fd-9033-e975402f0db5}">
+    <Declaration><![CDATA[TYPE TRAJ_POINT :
+STRUCT
+	joints    : ARRAY [0..6] OF REAL;              //关节的位置数据(7关节)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
