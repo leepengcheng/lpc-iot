@@ -1,3 +1,4 @@
+#coding:utf-8
 import subprocess
 HostDir="G:/openresty"
 DockerDir="/usr/local/openresty/nginx"
