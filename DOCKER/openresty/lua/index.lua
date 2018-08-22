@@ -4,7 +4,7 @@ red:set_timeout(1000) -- 1 sec
 -- or connect to a unix domain socket file listened
 -- by a redis server:
 -- local ok, err = red:connect("unix:/path/to/redis.sock")
-local ok, err = red:connect("192.168.0.104", 6379)
+local ok, err = red:connect("redis_db", 6379)
 if not ok then
     ngx.say("failed to connect: ", err)
     return

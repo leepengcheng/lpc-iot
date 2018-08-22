@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mosquitto:
+    image: "toke/mosquitto:latest"
+    container_name: mosquitto #指定后无法用scale命令
+    ports:
+      - "9001:9001"
+      - "1883:1883"
+    volumes:
+      - ./mqtt/config:/mqtt/config:rw
+      - ./mqtt/data:/mqtt/data:rw
+      - ./mqtt/log:/mqtt/log:rw
+

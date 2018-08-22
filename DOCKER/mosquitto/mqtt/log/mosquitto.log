@@ -1,0 +1,126 @@
+1534835682: mosquitto version 1.4.15 (build date Sat, 07 Apr 2018 11:13:41 +0100) starting
+1534835682: Config loaded from /mqtt/config/mosquitto.conf.
+1534835682: Opening websockets listen socket on port 9001.
+1534835682: Opening ipv4 listen socket on port 1883.
+1534835682: Opening ipv6 listen socket on port 1883.
+1534835682: New connection from 192.168.64.1 on port 1883.
+1534835682: New client connected from 192.168.64.1 as e51ddd91-b3c4-49b8-af64-3181ac5ef6481534834615990 (c1, k10, u'myclient').
+1534835683: New client connected from 192.168.64.1 as cee1dca7-8870-4a9a-9c79-d95624f9e6781534834615995 (c1, k10, u'lpc').
+1534837482: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534837482: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534837482: Error: Permission denied.
+1534839283: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534839283: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534839283: Error: Permission denied.
+1534841084: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534841084: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534841084: Error: Permission denied.
+1534842885: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534842885: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534842885: Error: Permission denied.
+1534844686: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534844686: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534844686: Error: Permission denied.
+1534846487: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534846487: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534846487: Error: Permission denied.
+1534848288: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534848288: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534848288: Error: Permission denied.
+1534850089: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534850089: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534850089: Error: Permission denied.
+1534851890: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534851890: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534851890: Error: Permission denied.
+1534853691: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534853691: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534853691: Error: Permission denied.
+1534855492: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534855492: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534855492: Error: Permission denied.
+1534857293: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534857293: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534857293: Error: Permission denied.
+1534859094: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534859094: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534859094: Error: Permission denied.
+1534860895: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534860895: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534860895: Error: Permission denied.
+1534862696: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534862696: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534862696: Error: Permission denied.
+1534864497: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534864497: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534864497: Error: Permission denied.
+1534866298: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534866298: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534866298: Error: Permission denied.
+1534868099: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534868099: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534868099: Error: Permission denied.
+1534869900: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534869900: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534869900: Error: Permission denied.
+1534871701: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534871701: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534871701: Error: Permission denied.
+1534873502: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534873502: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534873502: Error: Permission denied.
+1534875303: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534875303: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534875303: Error: Permission denied.
+1534877104: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534877104: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534877104: Error: Permission denied.
+1534878905: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534878905: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534878905: Error: Permission denied.
+1534880706: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534880706: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534880706: Error: Permission denied.
+1534882507: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534882507: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534882507: Error: Permission denied.
+1534884308: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534884308: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534884308: Error: Permission denied.
+1534886109: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534886109: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534886109: Error: Permission denied.
+1534887910: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534887910: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534887910: Error: Permission denied.
+1534889711: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534889711: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534889711: Error: Permission denied.
+1534891512: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534891512: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534891512: Error: Permission denied.
+1534893313: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534893313: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534893313: Error: Permission denied.
+1534895114: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534895114: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534895114: Error: Permission denied.
+1534896915: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534896915: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534896915: Error: Permission denied.
+1534898716: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534898716: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534898716: Error: Permission denied.
+1534900517: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534900517: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534900517: Error: Permission denied.
+1534902318: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534902318: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534902318: Error: Permission denied.
+1534904119: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534904119: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534904119: Error: Permission denied.
+1534905920: Saving in-memory database to /mqtt/data/mosquitto.db.
+1534905920: Error saving in-memory database, unable to open /mqtt/data/mosquitto.db.new for writing.
+1534905920: Error: Permission denied.
+1534907721: Saving in-memory database to /mqtt/data/mosquitto.db.
