@@ -11,4 +11,3 @@ services:
       - ./mqtt/config:/mqtt/config:rw
       - ./mqtt/data:/mqtt/data:rw
       - ./mqtt/log:/mqtt/log:rw
-

@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  emqttd:
+    image: "emqttd-docker-v2.3.11:latest"
+    container_name: emqttd #指定后无法用scale命令
+    ports:
+      - "9001:9001"
+      - "1883:1883"   #MQTT 协议端口
+      - "18083:18083" #Dashboard 管理控制台端口
+      - "8883:8883"   #MQTT/SSL 端口
+      - "8083:8083"  #MQTT/WebSocket 端口
+      - "8084:8084"  #MQTT-WebSocket端口
+      - "8080:8080"  #HTTP API 端口
+      # #EMQ 节点集群使用的 TCP 端口,集群节点间如有防护墙，需开启TCP 端口互访权限
+      # - "4369:4639"  #集群节点发现端口
+      # - "6369:6369" #集群节点控制通道
+    volumes:
+      - ./etc:${EMQTTD}/etc:rw
+      - ./log:${EMQTTD}/log:rw
