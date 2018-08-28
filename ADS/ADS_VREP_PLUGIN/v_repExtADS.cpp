@@ -97,7 +97,7 @@ uint32_t openHandle(const std::string handleName)
                                                nullptr);
     if (status)
     {
-        std::cout << "ADS:Open handle " << handleName << " failed with: 0x" << std::hex << status << '\n';
+        std::cout << "ADS:Open handle " << handleName << " failed with: 0x" << std::hex << status <<'\n';
     } else
     {
         std::cout << "ADS:Open handle " << handleName << " Successfully.\n";
@@ -204,7 +204,7 @@ void LUA_READ_CALLBACK(SScriptCallBack *cb)
 
 
         //------------------Read Data----------------
-        if (floatLength>0)
+        if (flag==HANDLE_NONE && floatLength>0)
         {
             std::vector<float> values(floatLength, 0);
             uint32_t bytesRead;
@@ -267,7 +267,7 @@ void LUA_WRITE_CALLBACK(SScriptCallBack *cb)
 
 
         //-----------------write Data------------------------
-        if(len>0)
+        if(flag==HANDLE_NONE  && len>0)
         {
             std::vector<float> values = inData->at(1).floatData;
             const long status = AdsSyncWriteReqEx(port, &server, ADSIGRP_SYM_VALBYHND, writeHandle, sizeof(float) * len, &values[0]);
