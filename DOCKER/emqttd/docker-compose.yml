@@ -15,5 +15,8 @@ services:
       # - "4369:4639"  #集群节点发现端口
       # - "6369:6369" #集群节点控制通道
     volumes:
-      - ./etc:${EMQTTD}/etc:rw
+      # - ./etc:${EMQTTD}/etc:rw
+      # - ./log:${EMQTTD}/log:rw
+      # - ./etc/emq.conf:${EMQTTD}/etc/emq.conf:rw #windows下不要改动,会无法启动
+      # - ./etc/acl.conf:${EMQTTD}/etc/acl.conf:rw
       - ./log:${EMQTTD}/log:rw
