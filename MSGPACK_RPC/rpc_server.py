@@ -1,11 +1,11 @@
 import msgpackrpc
 import numpy as np
-import  cv2
-import  time
+# import  cv2
+# import  time
+import json
 
-cv2.namedWindow("RPC")
 class ImageProcess(object):
-    def get_halcon_image(self,data):
+    def inference(self,data):
         w=data[b'width']
         h=data[b'height']
         img=np.zeros((h,w,3),dtype=np.uint8)
@@ -18,11 +18,13 @@ class ImageProcess(object):
         img[:,:,0]=b
         img[:,:,1]=g
         img[:,:,2]=r
-        cv2.imshow("RPC",img)
-        cv2.waitKey(100)
-
-
+        result={"model":"yolo","objects":[]}
+        result["objects"].append({"class":"mouse","xmin":200,"ymin":200,"width":100,"height":100})
+        result["objects"].append({"class":"mouse","xmin":150,"ymin":150,"width":50,"height":50})
+        print(result)
+        return json.dumps(result)
+        
 
 server=msgpackrpc.Server(ImageProcess())
-server.listen(msgpackrpc.Address("0.0.0.0",8800))
+server.listen(msgpackrpc.Address("127.0.0.1",8800))
 server.start()
